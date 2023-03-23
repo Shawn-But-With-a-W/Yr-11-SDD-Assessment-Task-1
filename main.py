@@ -12,7 +12,7 @@ __copyright__ = 'Copyright 2023, Shawn Li'
 __credits__ = []
 
 
-def open_maze(file_name: str) -> list[list[str]]:
+def open_maze(file_name: str) -> list[list[str(int)]]:
     '''Opens the maze file and returns it as a 2D list.'''
     with open(file_name) as f:
         maze = f.read()
@@ -27,7 +27,7 @@ def open_maze(file_name: str) -> list[list[str]]:
     return maze_list
 
 
-def check_surroundings(maze: list[list[str]], coord: tuple[int]) -> list[str(int)]:
+def check_surroundings(maze: list[list[str[int]]], coord: tuple[int, int]) -> list[str(int), str[int], str[int], str[int]]: # Could also return None in the list
     '''Returns the the value of the four spaces surrounding row column in maze in order of (up, down, left, right).'''
     row = coord[0]
     column = coord[1]
@@ -49,8 +49,8 @@ def check_surroundings(maze: list[list[str]], coord: tuple[int]) -> list[str(int
     return surroundings
 
 
-def fill_dead_end(maze: list[list[str]], coord_list=[], start=None) -> tuple[list[tuple], tuple, tuple]:
-    '''Replaces all spaces in the maze surrounded by three walls or edges, with a wall. Returns the location of the start.'''
+def fill_dead_end(maze: list[list[str[int]]], coord_list=[], start=None) -> tuple[int, int]:
+    '''Replaces all spaces in the maze surrounded by three walls or edges, with a wall. Returns the coordinates of the starting location.'''
     dead_ends_filled = 0
 
     if coord_list == []:
@@ -66,7 +66,7 @@ def fill_dead_end(maze: list[list[str]], coord_list=[], start=None) -> tuple[lis
                     else:
                         coord_list.append((row, column))
                 
-                # Find the start and end coordinates for later use in walk()
+                # Find the start coordinates for later use in walk()
                 elif maze[row][column] == '5':
                     start = (row, column)
 
@@ -87,7 +87,7 @@ def fill_dead_end(maze: list[list[str]], coord_list=[], start=None) -> tuple[lis
         return start
 
 
-def walk(maze: list[list[str]], current_coord: tuple, coord_list=[]):
+def walk(maze: list[list[str[int]]], current_coord: tuple[int, int], coord_list=[]):
     '''Simulates a walk to determine a single solution to the maze.'''
     DIRECTION_TO_COORDINATE = {
         0 : 'current_coord[0]-1, current_coord[1]', 
@@ -124,7 +124,7 @@ def walk(maze: list[list[str]], current_coord: tuple, coord_list=[]):
     return walk(maze, current_coord, coord_list)
 
 
-def create_path(maze: list[list[str]], coord_list: list[tuple[int]]):
+def create_path(maze: list[list[str[int]]], coord_list: list[tuple[int, int]]):
     '''Replaces all given spaces with paths.'''
     for row, column in coord_list:
         maze[row][column] = '5'
