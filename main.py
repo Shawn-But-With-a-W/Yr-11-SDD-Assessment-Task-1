@@ -1,15 +1,16 @@
-'''Submission for year 11 SDD assessment task 1'''
+'''Submission for year 11 SDD assessment task 1
 
-# Finds a path through a maze stored in external file, where:
-# 1: walls
-# 0: spaces
-# 5: start
-# 3: end
-# All characters besides the last of the line have a trailing comma and space
+Finds a path through a maze stored in external file, where:
+1: walls
+0: spaces
+5: start
+3: end
+All characters besides the last of the line have a trailing comma and space
+'''
 
 __author__ = 'Shawn Li'
 __copyright__ = 'Copyright 2023, Shawn Li'
-__credits__ = []
+__credits__ = ['Xavier Rowley', 'Zen Syahrizal']
 
 
 def open_maze(file_name: str) -> list[list[str(int)]]:
@@ -46,7 +47,7 @@ def check_surroundings(maze: list[list[str(int)]], coord: tuple[int, int]) -> li
 
 
 def fill_dead_end(maze: list[list[str(int)]], start_coord=None, end_coord=None, space_list=[]) -> tuple[tuple[int, int], tuple[int, int]]:
-    '''Replaces dead ends with a wall. Returns the coordinates of the start and end.'''
+    '''Replaces dead ends in maze with a wall. Returns the coordinates of the start and end.'''
     dead_ends_filled = 0
 
     if space_list == []:
@@ -86,7 +87,7 @@ def fill_dead_end(maze: list[list[str(int)]], start_coord=None, end_coord=None, 
         return start_coord, end_coord
 
 
-def walk(maze: list[list[str(int)]], current_coord: tuple[int, int], end_coord: tuple[int, int], path_list=[]):
+def walk(filled_maze: list[list[str(int)]], current_coord: tuple[int, int], end_coord: tuple[int, int], path_list=[]):
     '''Simulates a walk to determine a single solution to the maze.'''
     DIRECTION_TO_COORDINATE = {
         0 : 'current_row-1, current_column', 
@@ -98,16 +99,16 @@ def walk(maze: list[list[str(int)]], current_coord: tuple[int, int], end_coord: 
     current_column = current_coord[1]
 
     # Change current space to a path and add to list
-    maze[current_coord[0]][current_coord[1]] = '5'
+    filled_maze[current_coord[0]][current_coord[1]] = '5'
     path_list.append(current_coord)
 
-    surroundings = check_surroundings(maze, current_coord)
+    surroundings = check_surroundings(filled_maze, current_coord)
     # End recursion if ending space is directly next to the current space
     if '3' in surroundings:
         return path_list
     junction_count = surroundings.count('0')
     # current_coord value may be changed if a more optimal direction is found later in code
-    current_coord = eval(DIRECTION_TO_COORDINATE[surroundings.index('0')]) # Gives smallest index in surroundings that is an empty space, and determines its coordinate
+    current_coord = eval(DIRECTION_TO_COORDINATE[surroundings.index('0')]) # Gives index of first empty space in surroundings, and determines its coordinate
 
     # For debugging purposes
     if junction_count == 0:
@@ -131,13 +132,13 @@ def walk(maze: list[list[str(int)]], current_coord: tuple[int, int], end_coord: 
                 end_direction_column += 1
             
             # Walk in optimal direction if possible
-            if maze[end_direction_row][current_column] == '0':
+            if filled_maze[end_direction_row][current_column] == '0':
                 current_coord = (end_direction_row, current_column)
-            elif maze[current_row][end_direction_column] == '0':
+            elif filled_maze[current_row][end_direction_column] == '0':
                 current_coord = (current_row, end_direction_column)
 
     # Recur the function with a new coordinate
-    return walk(maze, current_coord, end_coord, path_list)
+    return walk(filled_maze, current_coord, end_coord, path_list)
 
 
 def create_path(maze: list[list[str(int)]], path_list: list[tuple[int, int]]):
@@ -156,9 +157,8 @@ path_list = walk(filled_maze, start_coord, end_coord)
 create_path(maze, path_list)
 
 # Loop through every value of maze and print out their values
-# Each row on a new line, each character with a  trailing space
+# Each row on a new line, each character with a trailing space
 for row in maze:
-    print('')
     for char in row:
         print(char, end=' ')
-print('')
+    print('')
