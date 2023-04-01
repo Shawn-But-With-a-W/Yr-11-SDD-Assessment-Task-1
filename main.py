@@ -28,7 +28,7 @@ def open_maze(file_name: str) -> list[list[str(int)]]:
 
 
 def check_surroundings(maze: list[list[str(int)]], coord: tuple[int, int]) -> list[str(int), str(int), str(int), str(int)]:
-    '''Returns the the value of the four spaces surrounding row column in maze in order of (up, down, left, right).'''
+    '''Returns the the value of the four spaces surrounding row column in maze in order of (up, down, left, right). Edges are '1' too.'''
     row = coord[0]
     column = coord[1]
     surroundings = ['1', '1', '1', '1']
@@ -46,7 +46,7 @@ def check_surroundings(maze: list[list[str(int)]], coord: tuple[int, int]) -> li
 
 
 def fill_dead_end(maze: list[list[str(int)]], start_coord=None, end_coord=None, space_list=[]) -> tuple[tuple[int, int], tuple[int, int]]:
-    '''Replaces all spaces in the maze surrounded by three walls or edges, with a wall. Returns the coordinates of the start and end.'''
+    '''Replaces dead ends with a wall. Returns the coordinates of the start and end.'''
     dead_ends_filled = 0
 
     if space_list == []:
@@ -70,7 +70,7 @@ def fill_dead_end(maze: list[list[str(int)]], start_coord=None, end_coord=None, 
                 elif maze[row][column] == '3':
                     end_coord = (row, column)
     else:
-        # Loop through all known empty non-dead end spaces from  space_list
+        # Loop through all known empty non-dead end spaces from space_list
         for row, column in space_list:
             # Check if there are more than/equal to 3 walls/edges surrounding the empty space
             surroundings = check_surroundings(maze, (row, column))
@@ -109,6 +109,7 @@ def walk(maze: list[list[str(int)]], current_coord: tuple[int, int], end_coord: 
     # current_coord value may be changed if a more optimal direction is found later in code
     current_coord = eval(DIRECTION_TO_COORDINATE[surroundings.index('0')]) # Gives smallest index in surroundings that is an empty space, and determines its coordinate
 
+    # For debugging purposes
     if junction_count == 0:
         raise Exception('Dead end found in walk')
 
@@ -155,6 +156,7 @@ path_list = walk(filled_maze, start_coord, end_coord)
 create_path(maze, path_list)
 
 # Loop through every value of maze and print out their values
+# Each row on a new line, each character with a  trailing space
 for row in maze:
     print('')
     for char in row:
