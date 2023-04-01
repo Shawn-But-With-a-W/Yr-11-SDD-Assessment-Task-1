@@ -1,4 +1,4 @@
-'''Submission for year 11 SDD assessment task 1
+'''Submission for year 11 Software Development & Design assessment task 1
 
 Finds a path through a maze stored in external file, where:
 1: walls
@@ -107,10 +107,10 @@ def walk(filled_maze: list[list[str(int)]], current_coord: tuple[int, int], end_
     if '3' in surroundings:
         return path_list
     junction_count = surroundings.count('0')
-    # current_coord value may be changed if a more optimal direction is found later in code
+    # Value of current_coord may be changed if a more optimal direction is found later in code
     current_coord = eval(DIRECTION_TO_COORDINATE[surroundings.index('0')]) # Gives index of first empty space in surroundings, and determines its coordinate
 
-    # For debugging purposes
+    # Error handler
     if junction_count == 0:
         raise Exception('Dead end found in walk')
 
