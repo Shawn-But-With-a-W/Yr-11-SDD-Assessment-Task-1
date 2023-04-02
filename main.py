@@ -114,6 +114,7 @@ def walk(filled_maze: list[list[str(int)]], current_coord: tuple[int, int], end_
     if junction_count == 0:
         raise Exception('Dead end found in walk')
 
+    # If a junction exists
     elif junction_count > 1:
             end_row = end_coord[0]
             end_column = end_coord[1]
