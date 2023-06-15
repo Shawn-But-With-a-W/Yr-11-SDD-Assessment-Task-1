@@ -8,9 +8,9 @@ Finds a path through a maze stored in external file, where:
 All characters besides the last of the line have a trailing comma and space
 '''
 
-__author__ = 'Shawn Li'
-__copyright__ = 'Copyright 2023, Shawn Li'
-__credits__ = ['Xavier Rowley', 'Zen Syahrizal']
+__author__ = 'Shawn'
+__copyright__ = 'Copyright 2023, Shawn-But-With-a-W'
+__credits__ = ['Xavier', 'Zen']
 
 
 def open_maze(file_name: str) -> list[list[str(int)]]:
